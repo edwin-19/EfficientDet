@@ -2,6 +2,7 @@ import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
 
 from PIL import Image
+import cv2
 import numpy as np
 import utils
 
@@ -21,7 +22,17 @@ def get_train_transforms(target_img_size=512):
     )
     
 def get_valid_transforms(target_img_size=512):
-    pass
+    return A.Compose(
+        [
+            A.Resize(height=target_img_size, width=target_img_size, p=1),
+            A.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ToTensorV2(p=1)
+        ],
+        p=1.0,
+        bbox_params=A.BboxParams(
+            format="pascal_voc", min_area=0, min_visibility=0, label_fields=["labels"]
+        )
+    )
 
 
 #### Dataset Features ####
@@ -41,7 +52,7 @@ class FruitDatasetAdaptor(object):
         annot = self.annot_df.iloc[index]
         image_path = annot['image_path']
         
-        img = Image.open(image_path)
+        img = cv2.imread(image_path)
         
         selected_annotations = self.annot_df[self.annot_df['image_path'] == image_path]
         pascal_bboxes = selected_annotations[
