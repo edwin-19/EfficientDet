@@ -10,4 +10,5 @@ if __name__ == '__main__':
     
     train_df = preprocess.convert_annots(args.train_dir)
     test_df = preprocess.convert_annots(args.test_dir)
-    print(test_df)
+    
+    
