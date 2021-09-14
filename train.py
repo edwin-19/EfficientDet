@@ -27,8 +27,10 @@ if __name__ == '__main__':
     # Create model
     model = EffcientDetModel()
     
-    # Create trainer to train model
+    # Create trainer class to train model
     trainer = pl.Trainer(
         gpus=[0], max_epochs=args.epoch, num_sanity_val_steps=1
     )
     trainer.fit(model, effdet_dm)
+    
+    # Perform evaluation

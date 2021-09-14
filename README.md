@@ -14,7 +14,8 @@ TBA
 - [ ] Deploy to triton and fastapi
 
 ## ToDO - Cleanup
-- [x] Convert notebook to py scripts for easier viewing
+- [ ] Convert notebook to py scripts for easier viewing
+- [ ] Update training with metrics 
 
 ## References
 - https://gist.github.com/Chris-hughes10/73628b1d8d6fc7d359b3dcbbbb8869d7
