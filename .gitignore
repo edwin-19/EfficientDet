@@ -1,3 +1,6 @@
 data/
 .ipynb_checkpoints/
 checkpoints/
+lightning_logs/
+__pycache__/
+weights/

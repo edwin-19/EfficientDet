@@ -1,4 +1,4 @@
-# Effcient Det Pytorch Test
+# Effcient Det Pytorch
 This repo was used as a test to build effcientnetV2 for object detection, using the fruits object detection dataset as a base.
 
 This repo will include from data exploration all the way to deployment.
@@ -7,9 +7,10 @@ This repo will include from data exploration all the way to deployment.
 TBA
 
 ## ToDO
-- [ ] EDA
-- [ ] Train
+- [x] EDA
+- [x] Train
 - [ ] Evaluation using sklearn
+- [ ] Inference Script
 - [ ] Deploy to triton and fastapi
 
 ## ToDO - Cleanup
