@@ -33,7 +33,7 @@ if __name__ == '__main__':
     early_stopping = EarlyStopping(
         monitor='valid_loss_epoch',
         min_delta=0.02,
-        patience=10,
+        patience=5,
         verbose=True,
         mode='max'
     )
