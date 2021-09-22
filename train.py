@@ -1,5 +1,6 @@
 import argparse
 import preprocess
+import os
 
 from dataset import FruitDatasetAdaptor, EffcientDetDataModule
 from model import EffcientDetModel
@@ -30,7 +31,7 @@ if __name__ == '__main__':
     
     # Define callbacks
     early_stopping = EarlyStopping(
-        monitor='valid_loss',
+        monitor='valid_loss_epoch',
         min_delta=0.02,
         patience=10,
         verbose=True,
@@ -45,4 +46,8 @@ if __name__ == '__main__':
     )
     trainer.fit(model, effdet_dm)
     
-    # Perform evaluation
+    # Save weights
+    if os.path.exists('weights'):
+        os.makedirs('weights/')
+        
+    trainer.save_checkpoint('weights/effdet_l.ckpt')
