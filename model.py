@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.core.decorators import auto_move_data
 
 import timm
-from effdet import EfficientDet, DetBenchTrain, get_efficientdet_config
+from effdet import EfficientDet, DetBenchTrain, DetBenchPredict, get_efficientdet_config
 from effdet.config.model_config import efficientdet_model_param_dict
 from effdet.efficientdet import HeadNet
 
@@ -12,7 +12,7 @@ def get_timm_model_listing(model_architecture_prefix='tf_efficientnetv2_*'):
     return timm.list_models(model_architecture_prefix)
 
 def create_model(
-    num_classes=3, image_size=512, architecture='tf_efficientnetv2_l'
+    num_classes=3, image_size=512, architecture='tf_efficientnetv2_l', task='train'
 ):
     """
     Function to create a effnet model
@@ -41,19 +41,23 @@ def create_model(
         config, num_outputs=config.num_classes
     )
     
-    return DetBenchTrain(net, config)
+    if task == 'train':
+        return DetBenchTrain(net, config)
+    elif task == 'predict':
+        return DetBenchPredict(net)
 
 class EffcientDetModel(pl.LightningModule):
     def __init__(
         self, num_classes=3, img_size=512,
         prediction_confidence_threshold=0.2,learning_rate=0.0002,
         model_architecture='tf_efficientnetv2_l',
+        task='train'
     ):
         super(EffcientDetModel, self).__init__()
         
         self.img_size = img_size
         self.model = create_model(
-            num_classes, img_size, architecture=model_architecture
+            num_classes, img_size, architecture=model_architecture, task=task
         )
         self.prediction_confidence_threshold = prediction_confidence_threshold
         self.lr = learning_rate

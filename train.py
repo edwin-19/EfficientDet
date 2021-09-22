@@ -4,6 +4,7 @@ import preprocess
 from dataset import FruitDatasetAdaptor, EffcientDetDataModule
 from model import EffcientDetModel
 import pytorch_lightning as pl
+from pytorch_lightning.callbacks import EarlyStopping
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -25,11 +26,22 @@ if __name__ == '__main__':
     )
     
     # Create model
-    model = EffcientDetModel()
+    model = EffcientDetModel(task='train')    
     
+    # Define callbacks
+    early_stopping = EarlyStopping(
+        monitor='valid_loss',
+        min_delta=0.02,
+        patience=10,
+        verbose=True,
+        mode='max'
+    )
+
     # Create trainer class to train model
     trainer = pl.Trainer(
-        gpus=[0], max_epochs=args.epoch, num_sanity_val_steps=1
+        gpus=[0], max_epochs=args.epoch, num_sanity_val_steps=1,
+        progress_bar_refresh_rate=20,
+        callbacks=[early_stopping]
     )
     trainer.fit(model, effdet_dm)
     

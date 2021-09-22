@@ -4,7 +4,10 @@ This repo was used as a test to build effcientnetV2 for object detection, using 
 This repo will include from data exploration all the way to deployment.
 
 # Installation
-TBA
+To run training code
+```bash
+python train.py
+```
 
 ## ToDO
 - [x] EDA
