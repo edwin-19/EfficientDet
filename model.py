@@ -55,6 +55,7 @@ class EffcientDetModel(pl.LightningModule):
     ):
         super(EffcientDetModel, self).__init__()
         
+        pl.seed_everything(142)
         self.img_size = img_size
         self.model = create_model(
             num_classes, img_size, architecture=model_architecture, task=task
