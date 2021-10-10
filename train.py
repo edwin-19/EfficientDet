@@ -47,7 +47,7 @@ if __name__ == '__main__':
     trainer.fit(model, effdet_dm)
     
     # Save weights
-    if os.path.exists('weights'):
+    if not os.path.exists('weights'):
         os.makedirs('weights/')
         
     trainer.save_checkpoint('weights/effdet_l.ckpt')
