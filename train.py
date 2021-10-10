@@ -1,8 +1,11 @@
 import argparse
+
+import torch
 import preprocess
 import os
 
 from dataset import FruitDatasetAdaptor, EffcientDetDataModule
+from dataset import get_train_transforms, get_valid_transforms
 from model import EffcientDetModel
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import EarlyStopping
@@ -23,11 +26,15 @@ if __name__ == '__main__':
     
     # Create data module
     effdet_dm = EffcientDetDataModule(
-        train_ds, test_ds, num_workers=4, batch_size=2
+        train_ds, test_ds, num_workers=4, batch_size=2,
+        train_transforms=get_train_transforms(target_img_size=512),
+        valid_transforms=get_valid_transforms(target_img_size=512)
     )
     
     # Create model
-    model = EffcientDetModel(task='train')    
+    model = EffcientDetModel(
+        task='train', model_architecture='tf_efficientdet_d1', learning_rate=2e-4
+    )
     
     # Define callbacks
     early_stopping = EarlyStopping(
@@ -50,4 +57,5 @@ if __name__ == '__main__':
     if not os.path.exists('weights'):
         os.makedirs('weights/')
         
-    trainer.save_checkpoint('weights/effdet_l.ckpt')
+    torch.save(model.state_dict(), 'weights/effdet_fruits_l.pth')
+    # trainer.save_checkpoint('weights/effdet_l.ckpt')
